@@ -35,3 +35,6 @@ yarn-error.log*
 next-env.d.ts
 
 yarn.lock
+
+# Local Netlify folder
+.netlify
