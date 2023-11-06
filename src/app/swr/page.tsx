@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import useSWR, { useSWRConfig } from 'swr';
+import useSWR from 'swr';
 
 import { API_URLS } from '@/config';
 
@@ -14,21 +14,17 @@ const fetchComments = async () => {
 
 const SWRPage: React.FC = () => {
   const key = 'comments';
-  const { cache } = useSWRConfig();
-  const cachedData = cache.get(key)?.data;
+
   const { data, isLoading } = useSWR(key, fetchComments, {
+    revalidateIfStale: false,
     revalidateOnFocus: false,
-    revalidateOnReconnect: false,
+    revalidateOnReconnect: true,
   });
 
   return (
     <Container>
       <h1>SWR Page</h1>
-      {isLoading ? (
-        <div>loading...</div>
-      ) : (
-        <CommentList comments={cachedData ? cachedData : data} />
-      )}
+      {isLoading ? <div>loading...</div> : <CommentList comments={data} />}
     </Container>
   );
 };
